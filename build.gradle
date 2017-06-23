@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+    	classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.4.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+repositories {
+	jcenter()
+}
+
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    //Jsoup for parsing HTML
+    compile 'org.jsoup:jsoup:1.10.3'
+    //Gson for JSON integration
+    compile 'com.google.code.gson:gson:2.8.0'
+    //Watson SDK
+    compile 'com.ibm.watson.developer_cloud:java-sdk:3.8.0'
+    // Solr for retrieve and rank
+    compile 'org.apache.solr:solr-solrj:5.5.1'
+    compile 'org.apache.solr:solr-core:6.4.0'
+    //Spring
+    compile 'org.springframework:spring-core'
+    compile 'org.springframework:spring-context'
+    
+    testCompile 'junit:junit:4.12'
+}
+
+clean.doFirst {
+	println 'doFirst called'
+	delete "build/libs"
+	delete "dist/"
+}
+
+
+// Begin jar content
+
+// Define output location
+def jarDir = file("$rootDir/dist")
+def libName = "libs"
+def libDir = file("$jarDir/$libName")
+
+// Make all jar tasks occur in jarDir
+tasks.withType(Jar) {
+	destinationDir = jarDir
+}
+
+// Copy dependencies to lib folder
+task copyDependencies(type: Copy) {
+	from configurations.compile
+	into libDir
+}
+
+// Copy dependencies upon build
+build.dependsOn('copyDependencies')
+
+jar {
+	// Manifest: set executable main class and dependency class-path
+	manifest {
+		attributes(
+			'Main-Class': 'htmlparser.UpdateFaq',
+			// All jar files must be declared independently
+			'Class-Path': configurations.compile.files.collect { "$libName/$it.name" }.join(' ')
+		)
+	}
+}
+
+// End jar content

@@ -1,0 +1,33 @@
+### Gradle ###
+.gradle
+build/
+liberty/
+wlp/
+dist/
+
+# Ignore configuration for Watson
+config.json
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+### OS X ###
+.DS_Store
+
+### Generated Files ###
+.settings
+/target
+/node_modules/*
+/node/*
+/src/main/webapp/dist/*
+.sass-cache
+app.log
+
+### Eclipse ###
+.classpath
+.project
+.factorypath
+.settings/
+bin/
+logs/
+.idea/
