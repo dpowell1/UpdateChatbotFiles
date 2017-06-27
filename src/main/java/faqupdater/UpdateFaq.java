@@ -27,7 +27,7 @@ public class UpdateFaq {
 		//including 'exports' (zip including quesitons and answers)
 		//and config zip file
 		//Documents must be uploaded before importing 'exports'
-		
+		updateDiscoveryFaqDocuments();
 	}
 	
 	public void updateDiscoveryFaqDocuments() {
@@ -39,21 +39,15 @@ public class UpdateFaq {
 	}
 	
 	private void deleteOldFaqsFromDiscovery() {
-//		QueryRequest.Builder queryBuilder = new QueryRequest.Builder(environmentId, collectionId);
-//		queryBuilder.query("text:faq");
-//		QueryRequest req = queryBuilder.build();
-//		QueryResponse resp = discovery.query(req).execute();
-//		System.out.println(resp.toString().substring(0, 100));
-		//this is how to get doc ids
-//		
-//		GetCollectionRequest request = new GetCollectionRequest.Builder(environmentId, collectionId).build();
-//		GetCollectionResponse response = discovery.getCollection(request).execute();
-//		System.out.println(response.);
+		
 	}
 	
 	private void uploadFaqsToDiscovery(List<JsonObject> jsonFaqs) {
-		for (JsonObject j : jsonFaqs) {
-			
+		for (JsonObject j : jsonFaqs) { 
+			String html = j.get("answer").toString()
+					.replaceAll("(?<!\\\\)\"", "")  //remove stray '"'
+					.replaceAll("\\\\\"", "\"")		//unescape '"'
+					.replaceAll("\\\\n", "");		//remove '\n'
 		}
 	}
 	

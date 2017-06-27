@@ -12,6 +12,7 @@ public class Main {
 		System.setProperty("https.proxyPort", port);
 		
 		UpdateFaq uf = new UpdateFaq();
+		uf.updateAllDocs();
 	}
 	
 }
